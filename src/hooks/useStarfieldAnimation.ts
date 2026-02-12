@@ -16,9 +16,12 @@ type StarfieldOptions = {
   hues?: number[];
   fadeFrames?: number;
   mobileBreakpoint?: number;
+  onSequenceComplete?: () => void;
 };
 
-const DEFAULT_OPTIONS: Required<StarfieldOptions> = {
+type StarfieldDefaults = Required<Omit<StarfieldOptions, "onSequenceComplete">>;
+
+const DEFAULT_OPTIONS: StarfieldDefaults = {
   starCount: 500,
   hues: [0, 60, 240],
   fadeFrames: 250,
@@ -129,6 +132,20 @@ function drawMessages(
   context.shadowBlur = 0;
 }
 
+function getSequenceCompleteFrame(messages: TimedMessage[], fadeFrames: number): number {
+  let completeFrame = 0;
+
+  for (let i = 0; i < messages.length; i += 1) {
+    const message = messages[i];
+    const endFrame = message.persistent ? message.start + fadeFrames : message.start + fadeFrames * 2;
+    if (endFrame > completeFrame) {
+      completeFrame = endFrame;
+    }
+  }
+
+  return completeFrame;
+}
+
 export function useStarfieldAnimation(
   canvasRef: RefObject<HTMLCanvasElement>,
   messages: TimedMessage[],
@@ -138,6 +155,7 @@ export function useStarfieldAnimation(
   const hues = options.hues ?? DEFAULT_OPTIONS.hues;
   const fadeFrames = options.fadeFrames ?? DEFAULT_OPTIONS.fadeFrames;
   const mobileBreakpoint = options.mobileBreakpoint ?? DEFAULT_OPTIONS.mobileBreakpoint;
+  const onSequenceComplete = options.onSequenceComplete;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -153,6 +171,8 @@ export function useStarfieldAnimation(
     let animationFrameId = 0;
     let frame = 0;
     let stars: Star[] = [];
+    let hasNotifiedSequenceComplete = false;
+    const sequenceCompleteFrame = getSequenceCompleteFrame(messages, fadeFrames);
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -176,6 +196,11 @@ export function useStarfieldAnimation(
         mobileBreakpoint
       );
 
+      if (!hasNotifiedSequenceComplete && frame >= sequenceCompleteFrame) {
+        hasNotifiedSequenceComplete = true;
+        onSequenceComplete?.();
+      }
+
       frame += 1;
       animationFrameId = window.requestAnimationFrame(draw);
     };
@@ -188,5 +213,5 @@ export function useStarfieldAnimation(
       window.cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [canvasRef, fadeFrames, hues, messages, mobileBreakpoint, starCount]);
+  }, [canvasRef, fadeFrames, hues, messages, mobileBreakpoint, onSequenceComplete, starCount]);
 }

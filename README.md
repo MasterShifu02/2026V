@@ -10,6 +10,7 @@ Nettsiden har stjerner i bakgrunnen, tekst i front og blå pil/cursor.
 ## Rediger innhold
 - Endre navn/tittel i `src/content/siteConfig.ts`
 - Endre tekst og timing i `src/content/messages.ts`
+- Endre escape room-gater og kupong i `src/content/escapeRoom.ts`
 - Canvas-animasjon ligger i `src/hooks/useStarfieldAnimation.ts`
 - Selve visningskomponenten ligger i `src/components/StarfieldCanvas.tsx`
 

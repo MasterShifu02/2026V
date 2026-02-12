@@ -4,12 +4,13 @@ import { useStarfieldAnimation } from "../hooks/useStarfieldAnimation";
 
 type StarfieldCanvasProps = {
   messages: TimedMessage[];
+  onSequenceComplete?: () => void;
 };
 
-export function StarfieldCanvas({ messages }: StarfieldCanvasProps): JSX.Element {
+export function StarfieldCanvas({ messages, onSequenceComplete }: StarfieldCanvasProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useStarfieldAnimation(canvasRef, messages);
+  useStarfieldAnimation(canvasRef, messages, { onSequenceComplete });
 
   return <canvas id="starfield" ref={canvasRef} />;
 }
