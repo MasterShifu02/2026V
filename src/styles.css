@@ -706,98 +706,276 @@ body {
   cursor: wait;
 }
 
-.home-page {
+.world-map-page {
   min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: clamp(14px, 2.6vw, 24px);
   background:
-    radial-gradient(circle at 12% 18%, rgba(45, 45, 255, 0.2), transparent 42%),
-    radial-gradient(circle at 88% 78%, rgba(0, 150, 255, 0.18), transparent 45%),
-    #090914;
-  color: #e8edff;
+    radial-gradient(circle at 12% 18%, rgba(56, 101, 144, 0.25), transparent 42%),
+    radial-gradient(circle at 84% 80%, rgba(198, 142, 68, 0.22), transparent 45%),
+    linear-gradient(#06080d, #101824);
+  color: #f3e9d0;
 }
 
-.home-page__content {
-  width: min(1040px, 92vw);
+.world-map-shell {
+  width: min(1280px, 98vw);
+  margin: 0 auto;
+  background: rgba(9, 13, 22, 0.72);
+  border: 1px solid rgba(209, 178, 124, 0.35);
+  border-radius: 16px;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 24px 42px rgba(0, 0, 0, 0.45);
+  padding: clamp(14px, 2vw, 24px);
+}
+
+.world-map-header {
   text-align: center;
-  padding: 28px 20px;
 }
 
-.home-page__eyebrow {
+.world-map-header__eyebrow {
   margin: 0;
-  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #9eb2ff;
+  color: #cfb06f;
+  font-size: 12px;
 }
 
-.home-page__content h1 {
-  margin: 8px 0 4px;
-  font-size: clamp(2rem, 5vw, 3.2rem);
+.world-map-header h1 {
+  margin: 8px 0 6px;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
 }
 
-.home-page__intro {
-  margin: 0 auto 28px;
-  max-width: 620px;
-  color: #c4ccf6;
+.world-map-header p {
+  margin: 0 auto 10px;
+  max-width: 840px;
+  color: #d8e6f7;
 }
 
-.home-page__grid {
+.world-map-stage {
+  margin-top: 8px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
   gap: 16px;
 }
 
-.hub-card {
-  text-align: left;
-  background: linear-gradient(180deg, rgba(18, 24, 57, 0.95), rgba(12, 17, 43, 0.95));
-  border: 1px solid rgba(132, 152, 255, 0.34);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+.world-map-canvas {
+  position: relative;
+  min-height: min(68vh, 700px);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(209, 178, 124, 0.45);
+  background:
+    linear-gradient(rgba(9, 14, 22, 0.18), rgba(9, 14, 22, 0.32)),
+    url("/images/expedition_33_adi_map.png");
+  background-size: cover;
+  background-position: center;
 }
 
-.hub-card__status {
-  display: inline-block;
-  margin: 0;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(45, 45, 255, 0.2);
-  color: #a9b5ff;
+.world-map-node {
+  position: absolute;
+  left: var(--portal-x);
+  top: var(--portal-y);
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.world-map-node__pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #e0b66e;
+  box-shadow:
+    0 0 0 2px rgba(22, 16, 10, 0.9),
+    0 0 12px rgba(255, 211, 133, 0.95);
+}
+
+.world-map-node__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 134px;
+  border: 1px solid rgba(240, 211, 158, 0.88);
+  border-radius: 8px;
+  background: rgba(19, 25, 36, 0.86);
+  color: #f7e9c7;
+  padding: 8px 10px;
+  text-align: left;
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.24),
+    0 10px 20px rgba(0, 0, 0, 0.32);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.world-map-node__label::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: rgba(240, 211, 158, 0.9);
+  transform: translateY(-50%);
+}
+
+.world-map-node--label-left .world-map-node__label {
+  left: auto;
+  right: 0;
+}
+
+.world-map-node--label-left .world-map-node__label::before {
+  left: auto;
+  right: -14px;
+}
+
+.world-map-node:hover {
+  z-index: 2;
+}
+
+.world-map-node:hover .world-map-node__label {
+  border-color: rgba(255, 232, 188, 1);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.24),
+    0 14px 24px rgba(0, 0, 0, 0.36);
+}
+
+.world-map-node.is-active .world-map-node__label {
+  border-color: rgba(255, 228, 179, 1);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.24),
+    0 14px 28px rgba(0, 0, 0, 0.42),
+    0 0 18px rgba(254, 218, 154, 0.4);
+}
+
+.world-map-node.is-active .world-map-node__pin {
+  box-shadow:
+    0 0 0 2px rgba(22, 16, 10, 0.92),
+    0 0 18px rgba(255, 213, 138, 0.98);
+}
+
+.world-map-node--games .world-map-node__label {
+  transform: translate(14px, -18px);
+}
+
+.world-map-node--quiz .world-map-node__label {
+  transform: translate(-16px, -56px);
+}
+
+.world-map-node--surprises .world-map-node__label {
+  transform: translate(14px, -20px);
+}
+
+.world-map-node__title {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.world-map-node__zone {
+  display: block;
+  margin-top: 2px;
   font-size: 12px;
+  color: #cfdcf3;
+}
+
+.world-map-panel {
+  border-radius: 10px;
+  border: 1px solid rgba(222, 189, 132, 0.45);
+  background: rgba(13, 18, 30, 0.82);
+  padding: 16px;
+  align-self: stretch;
+  height: fit-content;
+  position: sticky;
+  top: 12px;
+}
+
+.world-map-panel__eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfb271;
+}
+
+.world-map-panel h2 {
+  margin: 8px 0 6px;
+}
+
+.world-map-panel__location {
+  margin: 0 0 8px;
+  font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: #d6bc86;
 }
 
-.hub-card h2 {
-  margin: 12px 0 8px;
-  font-size: 1.3rem;
-}
-
-.hub-card p {
-  margin: 0 0 12px;
-  color: #c8d2ff;
-}
-
-.hub-card ul {
+.world-map-panel p {
   margin: 0;
-  padding-left: 18px;
-  color: #dbe2ff;
+  color: #d6e3f4;
 }
 
-.hub-card li + li {
+.world-map-panel ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: #edf2fb;
+}
+
+.world-map-panel li + li {
   margin-top: 6px;
 }
 
+.world-map-panel button {
+  margin-top: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #ac7c3e;
+  color: #fff8ea;
+  padding: 9px 13px;
+  font-weight: 700;
+}
+
+.world-map-panel button:hover {
+  background: #c58d45;
+}
+
 @media (max-width: 900px) {
-  .home-page__grid {
+  .escape-form {
+    flex-direction: column;
+  }
+
+  .world-map-stage {
     grid-template-columns: 1fr;
   }
 
-  .escape-form {
-    flex-direction: column;
+  .world-map-canvas {
+    min-height: min(64vh, 560px);
+  }
+
+  .world-map-node__label {
+    min-width: 116px;
+    padding: 7px 8px;
+  }
+
+  .world-map-node--games .world-map-node__label {
+    transform: translate(12px, -14px);
+  }
+
+  .world-map-node--quiz .world-map-node__label {
+    transform: translate(-12px, -50px);
+  }
+
+  .world-map-node--surprises .world-map-node__label {
+    transform: translate(12px, -18px);
+  }
+
+  .world-map-panel {
+    position: static;
   }
 
   .ticket-planet {

@@ -56,7 +56,7 @@ export function TicketGateScene({
         <span className="ticket-planet__ring" />
         <span className="ticket-planet__surface">
           <span className="ticket-planet__lights" />
-          <span className="ticket-planet__park-sign">ADI</span>
+          <span className="ticket-planet__park-sign">E33</span>
           <span className="ticket-planet__orbit ticket-planet__orbit--one" />
           <span className="ticket-planet__orbit ticket-planet__orbit--two" />
         </span>

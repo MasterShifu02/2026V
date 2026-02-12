@@ -42,5 +42,5 @@ export const escapeReward = {
   heading: "Du klarte det, min stjerne!",
   message: "Du rymte ut av det sorte hullet, og i handa di ligger inngangsbilletten.",
   ticketLabel: "INNGANGSBILLETT",
-  ticketValue: "Gyldig for adgang til Adi Spilleverden"
+  ticketValue: "Gyldig for adgang til Adi Expedition 33"
 } as const;

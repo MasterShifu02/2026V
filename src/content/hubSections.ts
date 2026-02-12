@@ -10,22 +10,26 @@ export const hubSections: HubSection[] = [
   {
     id: "games",
     title: "Spill",
-    subtitle: "Små spill med personlig tema",
+    subtitle: "Ekspedisjonsutfordringer for oss to",
     status: "Planlagt",
-    ideas: ["Memory-spill med våre bilder", "Klikk-og-fang hjerter", "Mini story-spill med valg"]
+    ideas: [
+      "Memory-run med vare favorittbilder",
+      "Refleks-spill: fang hjerter i tide",
+      "Mini-ekspedisjon med valg og sma overraskelser"
+    ]
   },
   {
     id: "quiz",
     title: "Quiz",
-    subtitle: "Spørsmål om oss og Ani",
+    subtitle: "Lumiere-test om oss, deg og minnene vare",
     status: "Planlagt",
-    ideas: ["Hvor godt kjenner du oss?", "Morsomme fakta-spørsmål", "Poeng + personlig avslutning"]
+    ideas: ["Hvor godt kjenner du oss?", "Fakta og minner fra reisen var", "Poeng + personlig sluttmelding"]
   },
   {
     id: "surprises",
     title: "Overraskelser",
-    subtitle: "Skjulte meldinger og små gaver",
+    subtitle: "Skjulte funn fra Expedition 33-universet",
     status: "Planlagt",
-    ideas: ["Låst brev som åpnes med kode", "Bildeslideshow med musikk", "Nedtelling til neste overraskelse"]
+    ideas: ["Last brev som apnes med kode", "Bildeslideshow med musikk", "Nedtelling til neste overraskelse"]
   }
 ];
