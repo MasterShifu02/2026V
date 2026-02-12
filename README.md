@@ -1,79 +1,37 @@
-# Valentine Website
+# Ani Valentine Website
 
-A valentine website for your bae. <br>
-This project gives you a template to use and edit for your valentine website instead of building one from scratch <br>
+Dette prosjektet er satt opp med:
+- React
+- TypeScript
+- Vite
 
-Edit the *'script.js'* file to customize the message and *'send_mail.php'* file to send an email from your email address.
+Nettsiden har stjerner i bakgrunnen, tekst i front og blå pil/cursor.
 
-## 
+## Rediger innhold
+- Endre navn/tittel i `src/content/siteConfig.ts`
+- Endre tekst og timing i `src/content/messages.ts`
+- Canvas-animasjon ligger i `src/hooks/useStarfieldAnimation.ts`
+- Selve visningskomponenten ligger i `src/components/StarfieldCanvas.tsx`
 
-This project is based on [in-all-the-stars](https://github.com/KalDrongo/in-all-the-stars), created by [KalDrongo](https://github.com/KalDrongo). 
-
-*Features added:*
-
-- background stars blinking
-- cursor change
-- mobile responsiveness
-- send email functionality
-- text glow effect
-
-## ⚒️ Languages / Library
-- HTML
-- CSS
-- Javascript
-- PHP
-- [PHPMailer](https://github.com/PHPMailer/PHPMailer)
-
-
-## 💻 Demo
-
-Check out the demo website: [Valentine-website](https://sojijr.github.io/valentine-website/)
-
-## How to use
-Click [`Use this template`](https://github.com/sojijr/valentine-website/generate) and it will create a new repo not a fork with all the files of this project for you.
-
-![image](https://user-images.githubusercontent.com/78784850/198232353-35fa6d2f-5816-4818-9381-a5bf394b146a.png)
-
-## Prerequisites to use 👇🏽
-- [Composer](https://getcomposer.org/) - to use
-before installation, please make sure you have it already installed.
-
-## 🛠️ Installation Steps
-
-1. After generating a new repo using this template, clone the project, you can use the following command:
-
+## Kjør lokalt med npm
+1. Installer avhengigheter:
 ```bash
-git clone https://github.com/<your-github-username>/valentine-website
+npm install
 ```
 
-2. Move the cloned repository to Xampp/htdocs or wamp64/www <br>
-
-3. Navigate to the project directory
-
+2. Start utviklingsserver:
 ```bash
-cd Xampp/htdocs/valentine-website or wamp64/www/valentine-website
+npm run dev
 ```
 
-4. Install dependencies with composer install
+3. Åpne URL-en som vises i terminalen (vanligvis `http://localhost:5173`).
 
+## Bygg produksjonsversjon
 ```bash
-composer install
+npm run build
 ```
 
-5. Run the project by entering the URL below on your browser to run it
-
+## Type-sjekk
 ```bash
-http://localhost/valentine-website/
+npm run typecheck
 ```
-
-## 👩🏽‍💻 Contributing
-
-Any contributions you make are greatly appreciated.
-
-## 🛡️ License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏🏽 Support
-
-This project needs a star️ from you. Don't forget to star it✨
