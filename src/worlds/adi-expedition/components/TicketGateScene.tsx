@@ -36,6 +36,8 @@ export function TicketGateScene({
   return (
     <main className="ticket-gate-page">
       <StarfieldCanvas messages={EMPTY_MESSAGES} />
+      <h1 className="ticket-gate-title">The Univers</h1>
+
 
       <button
         type="button"
