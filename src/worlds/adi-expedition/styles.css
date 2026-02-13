@@ -28,6 +28,30 @@
     0 0 56px rgba(87, 130, 255, 0.3);
 }
 
+.ticket-gate-music-control {
+  position: fixed;
+  right: max(16px, 2vw);
+  top: max(14px, 2vh);
+  z-index: 5;
+  border: 1px solid rgba(160, 188, 255, 0.6);
+  border-radius: 999px;
+  background: rgba(14, 22, 42, 0.84);
+  color: #d8e7ff;
+  padding: 7px 13px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 10px 16px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(223, 233, 255, 0.26);
+}
+
+.ticket-gate-music-control:hover {
+  background: rgba(24, 35, 62, 0.9);
+}
+
 .ticket-gate-overlay {
   position: relative;
   z-index: 3;
@@ -2442,6 +2466,13 @@
     right: 12px;
     top: 68%;
     width: min(132px, 36vw);
+  }
+
+  .ticket-gate-music-control {
+    right: 10px;
+    top: 10px;
+    padding: 6px 11px;
+    font-size: 11px;
   }
 
   .ticket-gate-console {

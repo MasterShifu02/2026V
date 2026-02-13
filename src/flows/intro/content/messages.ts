@@ -30,8 +30,8 @@ const MESSAGE_TEMPLATES: MessageTemplate[] = [
   {
     start: 1500,
     yOffset: 0,
-    desktopTemplate: ["is so incredibly, unfathomably unlikely"],
-    mobileTemplate: ["is so incredibly, unfathomably unlikely"],
+    desktopTemplate: ["is so incredibly, brimmingly unlikely"],
+    mobileTemplate: ["is so incredibly, brimmingly unlikely"],
     persistent: false
   },
   {
@@ -44,8 +44,8 @@ const MESSAGE_TEMPLATES: MessageTemplate[] = [
   {
     start: 2500,
     yOffset: 0,
-    desktopTemplate: ["I love you so much {name}, more than all the time and space in the universe can contain"],
-    mobileTemplate: ["I love you so much {name}, more than", "all the time and space in the universe can contain"],
+    desktopTemplate: ["I love you so much {name}, more than all the time and space the universe can contain"],
+    mobileTemplate: ["I love you so much {name}, more than", "all the time and space the universe can contain"],
     persistent: true
   },
   {
@@ -58,8 +58,8 @@ const MESSAGE_TEMPLATES: MessageTemplate[] = [
   {
     start: 3000,
     yOffset: 120,
-    desktopTemplate: ["Happy Valentine's Day <3"],
-    mobileTemplate: ["Happy Valentine's Day <3"],
+    desktopTemplate: ["Happy Valentine's Day Milacku <3"],
+    mobileTemplate: ["Happy Valentine's Day Milacku <3"],
     persistent: true
   }
 ];
