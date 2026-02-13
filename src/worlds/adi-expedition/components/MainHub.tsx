@@ -51,6 +51,7 @@ export function MainHub({
   onStartMission
 }: MainHubProps): JSX.Element {
   const [selectedId, setSelectedId] = useState<(typeof hubSections)[number]["id"]>("games");
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [musicNotice, setMusicNotice] = useState<string | null>(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -201,17 +202,31 @@ export function MainHub({
         </div>
         <section className="world-map-stage">
           <section className="world-map-canvas" aria-label={`${worldName} kart`}>
-            <article className="world-map-alert">
-              <p className="world-map-alert__eyebrow">Nodsignal // Prioritet 33</p>
-              <h1>Francois har kidnappet Adi</h1>
-              <p>
-                Francuis truer alle i Lumiere og sier at han kun slipper Adi fri når han har fatt tilbake
-                sine 3 steiner.
-              </p>
-              <p>
-                {recipientName}, Gestral Stone er sikret 1/3. Hent de 2 neste steinene i Camp og
-                Badunkadunk Vault.
-              </p>
+            <article className={`world-map-alert ${isAlertOpen ? "is-open" : "is-closed"}`}>
+              <div className="world-map-alert__top">
+                <p className="world-map-alert__eyebrow">Nodsignal // Prioritet 33</p>
+                <button
+                  type="button"
+                  className="world-map-alert__toggle"
+                  onClick={() => setIsAlertOpen((previous) => !previous)}
+                  aria-expanded={isAlertOpen}
+                >
+                  {isAlertOpen ? "Lukk" : "Apne"}
+                </button>
+              </div>
+              {isAlertOpen && (
+                <>
+                  <h1>Francois har kidnappet Adi</h1>
+                  <p>
+                    Francuis truer alle i Lumiere og sier at han kun slipper Adi fri når han har fatt
+                    tilbake sine 3 steiner.
+                  </p>
+                  <p>
+                    {recipientName}, Gestral Stone er sikret 1/3. Hent de 2 neste steinene i Camp og
+                    Badunkadunk Vault.
+                  </p>
+                </>
+              )}
             </article>
 
             {portalNodes.map((node) => {

@@ -1494,6 +1494,36 @@
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.36);
 }
 
+.world-map-alert__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.world-map-alert__toggle {
+  border: 1px solid rgba(238, 205, 147, 0.64);
+  border-radius: 999px;
+  background: rgba(18, 28, 45, 0.88);
+  color: #f5e6c6;
+  padding: 5px 11px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.world-map-alert__toggle:hover {
+  background: rgba(30, 44, 68, 0.94);
+}
+
+.world-map-alert.is-closed {
+  width: auto;
+  max-width: calc(100% - 32px);
+  padding: 8px 10px;
+}
+
 .world-map-alert__eyebrow {
   margin: 0;
   font-size: 11px;
