@@ -1,4 +1,12 @@
 .ticket-gate-page {
+  --tg-title-x: 0px;
+  --tg-title-y: 0px;
+  --tg-music-x: 0px;
+  --tg-music-y: 0px;
+  --tg-planet-x: 0px;
+  --tg-planet-y: 0px;
+  --tg-console-x: 0px;
+  --tg-console-y: 0px;
   position: relative;
   width: 100%;
   height: 100%;
@@ -15,7 +23,7 @@
   position: fixed;
   left: 50%;
   top: clamp(16px, 4vh, 36px);
-  transform: translateX(-50%);
+  transform: translateX(-50%) translate(var(--tg-title-x), var(--tg-title-y));
   z-index: 3;
   margin: 0;
   font-size: clamp(1.35rem, 3.4vw, 2.4rem);
@@ -32,6 +40,7 @@
   position: fixed;
   right: max(16px, 2vw);
   top: max(14px, 2vh);
+  transform: translate(var(--tg-music-x), var(--tg-music-y));
   z-index: 5;
   border: 1px solid rgba(160, 188, 255, 0.6);
   border-radius: 999px;
@@ -46,6 +55,7 @@
   box-shadow:
     0 10px 16px rgba(0, 0, 0, 0.32),
     inset 0 1px 0 rgba(223, 233, 255, 0.26);
+  transition: background-color 0.2s ease;
 }
 
 .ticket-gate-music-control:hover {
@@ -81,11 +91,15 @@
   max-width: 620px;
 }
 
-.ticket-planet {
+.ticket-planet-layer {
   position: fixed;
   right: max(4vw, 20px);
   top: 58%;
   z-index: 4;
+  transform: translate(var(--tg-planet-x), var(--tg-planet-y));
+}
+
+.ticket-planet {
   width: min(168px, 26vw);
   aspect-ratio: 1;
   border: 0;
@@ -213,7 +227,7 @@
   position: fixed;
   left: 50%;
   bottom: 9%;
-  transform: translateX(-50%) translateY(16px);
+  transform: translateX(-50%) translateY(16px) translate(var(--tg-console-x), var(--tg-console-y));
   width: min(520px, 88vw);
   border-radius: 14px;
   border: 1px solid rgba(152, 175, 255, 0.44);
@@ -231,7 +245,7 @@
 .ticket-gate-console.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0) translate(var(--tg-console-x), var(--tg-console-y));
 }
 
 .ticket-gate-console__eyebrow {
@@ -2462,9 +2476,12 @@
     max-height: 48vh;
   }
 
-  .ticket-planet {
+  .ticket-planet-layer {
     right: 12px;
     top: 68%;
+  }
+
+  .ticket-planet {
     width: min(132px, 36vw);
   }
 
