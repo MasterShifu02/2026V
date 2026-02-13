@@ -233,8 +233,10 @@
 .gestral-briefing-page {
   position: relative;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: clamp(14px, 3vh, 28px) 0 30px;
 }
 
 .gestral-briefing-page #starfield {
@@ -247,7 +249,7 @@
   position: relative;
   z-index: 3;
   width: min(760px, 92vw);
-  margin: 12vh auto 0;
+  margin: clamp(10px, 3vh, 34px) auto 0;
   border: 1px solid rgba(230, 198, 143, 0.5);
   border-radius: 16px;
   background: rgba(8, 13, 28, 0.88);
@@ -286,7 +288,7 @@
 .gestral-briefing-portrait img {
   display: block;
   width: 100%;
-  height: min(56vh, 460px);
+  height: clamp(240px, 42vh, 460px);
   object-fit: contain;
   background: rgba(6, 10, 18, 0.7);
 }
@@ -385,6 +387,16 @@
 
 .gestral-briefing__hint.is-warning {
   color: #f0c79c;
+}
+
+@media (max-width: 900px) {
+  .gestral-briefing-shell h1 {
+    font-size: clamp(1.45rem, 7.2vw, 2rem);
+  }
+
+  .gestral-briefing-portrait img {
+    height: clamp(210px, 36vh, 340px);
+  }
 }
 
 .francois-final-page {

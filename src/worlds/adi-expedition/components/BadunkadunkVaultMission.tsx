@@ -9,14 +9,7 @@ type BadunkadunkVaultMissionProps = {
   onBackToPortal: () => void;
 };
 
-const NEVRON_IMAGE_CANDIDATES = [
-  withBase("/images/worlds/adi-expedition/Nevron.png"),
-  withBase("/images/worlds/adi-expedition/nevron.png"),
-  withBase("/images/worlds/adi-expedition/Nevron.webp"),
-  withBase("/images/worlds/adi-expedition/nevron.webp"),
-  withBase("/images/worlds/adi-expedition/Nevron.jpg"),
-  withBase("/images/worlds/adi-expedition/nevron.jpg")
-] as const;
+const NEVRON_IMAGE_CANDIDATES = [withBase("/images/worlds/adi-expedition/nevron.png")] as const;
 
 type DialoguePhase =
   | "idle"

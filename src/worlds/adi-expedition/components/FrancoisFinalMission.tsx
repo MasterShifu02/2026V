@@ -7,16 +7,7 @@ type FrancoisFinalMissionProps = {
   onMissionCompleted: () => void;
 };
 
-const FRANCOIS_IMAGE_CANDIDATES = [
-  withBase("/images/worlds/adi-expedition/Francois.jpeg"),
-  withBase("/images/worlds/adi-expedition/francois.jpeg"),
-  withBase("/images/worlds/adi-expedition/Francois.jpg"),
-  withBase("/images/worlds/adi-expedition/francois.jpg"),
-  withBase("/images/worlds/adi-expedition/Francois.png"),
-  withBase("/images/worlds/adi-expedition/francois.png"),
-  withBase("/images/worlds/adi-expedition/Francois.webp"),
-  withBase("/images/worlds/adi-expedition/francois.webp")
-] as const;
+const FRANCOIS_IMAGE_CANDIDATES = [withBase("/images/worlds/adi-expedition/Francois.jpeg")] as const;
 
 export function FrancoisFinalMission({
   recipientName,

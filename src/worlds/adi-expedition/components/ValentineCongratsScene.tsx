@@ -8,22 +8,7 @@ type ValentineCongratsSceneProps = {
   onBackToPortal: () => void;
 };
 
-const ADI_IMAGE_CANDIDATES = [
-  withBase("/images/worlds/adi-expedition/Adi.jpeg"),
-  withBase("/images/worlds/adi-expedition/adi.jpeg"),
-  withBase("/images/worlds/adi-expedition/Adi.jpg"),
-  withBase("/images/worlds/adi-expedition/adi.jpg"),
-  withBase("/images/worlds/adi-expedition/Adi.png"),
-  withBase("/images/worlds/adi-expedition/adi.png"),
-  withBase("/images/worlds/adi-expedition/Adi.webp"),
-  withBase("/images/worlds/adi-expedition/adi.webp"),
-  withBase("/images/worlds/adi-expedition/Me.jpeg"),
-  withBase("/images/worlds/adi-expedition/me.jpeg"),
-  withBase("/images/worlds/adi-expedition/Me.jpg"),
-  withBase("/images/worlds/adi-expedition/me.jpg"),
-  withBase("/images/worlds/adi-expedition/Me.png"),
-  withBase("/images/worlds/adi-expedition/me.png")
-] as const;
+const ADI_IMAGE_CANDIDATES = [withBase("/images/worlds/adi-expedition/Adi.png")] as const;
 
 export function ValentineCongratsScene({
   recipientName,

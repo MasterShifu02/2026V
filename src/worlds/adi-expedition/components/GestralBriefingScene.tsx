@@ -11,14 +11,7 @@ type GestralBriefingSceneProps = {
 };
 
 const EMPTY_MESSAGES: TimedMessage[] = [];
-const GESTRAL_IMAGE_CANDIDATES = [
-  withBase("/images/worlds/adi-expedition/Gestral.jpg"),
-  withBase("/images/worlds/adi-expedition/gestral.jpg"),
-  withBase("/images/worlds/adi-expedition/Gestral.png"),
-  withBase("/images/worlds/adi-expedition/gestral.png"),
-  withBase("/images/worlds/adi-expedition/Gestral.webp"),
-  withBase("/images/worlds/adi-expedition/gestral.webp")
-] as const;
+const GESTRAL_IMAGE_CANDIDATES = [withBase("/images/worlds/adi-expedition/Gestral.jpg")] as const;
 
 export function GestralBriefingScene({
   recipientName,
