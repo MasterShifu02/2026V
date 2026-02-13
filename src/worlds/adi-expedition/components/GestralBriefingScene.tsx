@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "../../../content/basePath";
 import { StarfieldCanvas } from "../../../flows/intro";
 import type { TimedMessage } from "../../../flows/intro";
 import { gestralDialogue } from "../content/gestralDialogue";
@@ -11,12 +12,12 @@ type GestralBriefingSceneProps = {
 
 const EMPTY_MESSAGES: TimedMessage[] = [];
 const GESTRAL_IMAGE_CANDIDATES = [
-  "/images/worlds/adi-expedition/Gestral.jpg",
-  "/images/worlds/adi-expedition/gestral.jpg",
-  "/images/worlds/adi-expedition/Gestral.png",
-  "/images/worlds/adi-expedition/gestral.png",
-  "/images/worlds/adi-expedition/Gestral.webp",
-  "/images/worlds/adi-expedition/gestral.webp"
+  withBase("/images/worlds/adi-expedition/Gestral.jpg"),
+  withBase("/images/worlds/adi-expedition/gestral.jpg"),
+  withBase("/images/worlds/adi-expedition/Gestral.png"),
+  withBase("/images/worlds/adi-expedition/gestral.png"),
+  withBase("/images/worlds/adi-expedition/Gestral.webp"),
+  withBase("/images/worlds/adi-expedition/gestral.webp")
 ] as const;
 
 export function GestralBriefingScene({

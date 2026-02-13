@@ -1,4 +1,5 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
+import { withBase } from "../../../content/basePath";
 import { campAudioConfig } from "../content/campAudio";
 
 type CampMissionProps = {
@@ -307,7 +308,7 @@ export function CampMission({
             <span>Esquie Mood: {isSolved ? "Glad" : "Trist"}</span>
           </div>
           <img
-            src="/images/worlds/adi-expedition/Esquie.png"
+            src={withBase("/images/worlds/adi-expedition/Esquie.png")}
             alt="Esquie i Camp"
             loading="eager"
             onClick={handleImageClick}

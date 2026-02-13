@@ -1463,7 +1463,7 @@
   border: 1px solid rgba(209, 178, 124, 0.45);
   background:
     linear-gradient(rgba(9, 14, 22, 0.18), rgba(9, 14, 22, 0.32)),
-    url("/images/worlds/adi-expedition/map.png");
+    var(--adi-map-background-image, none);
   background-size: cover;
   background-position: center;
 }

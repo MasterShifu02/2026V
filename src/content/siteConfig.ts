@@ -1,3 +1,5 @@
+import { withBase } from "./basePath";
+
 export const siteConfig = {
   recipientName: "Ani",
   pageTitle: "For Ani",
@@ -10,13 +12,13 @@ export const siteConfig = {
   finalMissionPageTitle: "Francois Throne // Finale",
   valentineCongratsPageTitle: "Valentinsdag // Fra Adi",
   mainWorldName: "Adi Expedition 33",
-  escapeRoomPath: "/black-hole",
-  ticketGatePath: "/tomt-univers",
-  mainPagePath: "/hovedside",
-  campMissionPath: "/hovedside/camp",
-  badunkadunkVaultPath: "/hovedside/badunkadunk-vault",
-  finalMissionPath: "/hovedside/francois-throne",
-  valentineCongratsPath: "/hovedside/valentines-hilsen",
+  escapeRoomPath: withBase("/black-hole"),
+  ticketGatePath: withBase("/tomt-univers"),
+  mainPagePath: withBase("/hovedside"),
+  campMissionPath: withBase("/hovedside/camp"),
+  badunkadunkVaultPath: withBase("/hovedside/badunkadunk-vault"),
+  finalMissionPath: withBase("/hovedside/francois-throne"),
+  valentineCongratsPath: withBase("/hovedside/valentines-hilsen"),
   continueButtonLabel: "Trykk for a krysse horisonten",
   escapeCompletedStorageKey: "ani_escape_completed",
   accessTicketStorageKey: "ani_escape_ticket_granted",

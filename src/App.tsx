@@ -63,6 +63,7 @@ function markFinalMissionCompleted(): void {
 
 export default function App(): JSX.Element {
   const messages = useMemo(() => createMessages(siteConfig.recipientName), []);
+  const [pathname, setPathname] = useState(() => window.location.pathname);
   const [showContinueButton, setShowContinueButton] = useState(false);
   const [isWarpingToEscape, setIsWarpingToEscape] = useState(false);
   const [isIntroMusicPlaying, setIsIntroMusicPlaying] = useState(false);
@@ -76,7 +77,6 @@ export default function App(): JSX.Element {
   const introMusicAudioRef = useRef<HTMLAudioElement | null>(null);
   const introMusicFadeFrameRef = useRef<number | null>(null);
   const warpWhooshAudioRef = useRef<HTMLAudioElement | null>(null);
-  const pathname = window.location.pathname;
   const hasAllThreeStones = hasGestralStone && isCampDone && isVaultDone;
 
   const isMainPage = pathname === siteConfig.mainPagePath;
@@ -94,6 +94,15 @@ export default function App(): JSX.Element {
     !isValentineCongratsPage &&
     !isEscapePage &&
     !isTicketGatePage;
+
+  const navigateTo = useCallback((path: string) => {
+    if (window.location.pathname === path) {
+      return;
+    }
+
+    window.history.pushState({}, "", path);
+    setPathname(window.location.pathname);
+  }, []);
 
   const fadeOutIntroMusic = useCallback((durationMs: number) => {
     const audio = introMusicAudioRef.current;
@@ -171,9 +180,9 @@ export default function App(): JSX.Element {
     playWarpWhoosh();
     fadeOutIntroMusic(Math.min(Math.max(siteConfig.introWarpDurationMs - 220, 450), 950));
     window.setTimeout(() => {
-      window.location.assign(siteConfig.escapeRoomPath);
+      navigateTo(siteConfig.escapeRoomPath);
     }, siteConfig.introWarpDurationMs);
-  }, [fadeOutIntroMusic, isWarpingToEscape, playWarpWhoosh]);
+  }, [fadeOutIntroMusic, isWarpingToEscape, navigateTo, playWarpWhoosh]);
 
   const handleIntroMusicToggle = useCallback(() => {
     if (!introMusicAudioRef.current) {
@@ -205,40 +214,40 @@ export default function App(): JSX.Element {
   const handleEscapeCompleted = useCallback(() => {
     markEscapeCompleted();
     setIsEscapeDone(true);
-    window.location.assign(siteConfig.ticketGatePath);
-  }, []);
+    navigateTo(siteConfig.ticketGatePath);
+  }, [navigateTo]);
 
   const handleUseTicketAtPlanet = useCallback(() => {
     grantEscapeTicket();
     setCanAccessMainPage(true);
-    window.location.assign(siteConfig.mainPagePath);
-  }, []);
+    navigateTo(siteConfig.mainPagePath);
+  }, [navigateTo]);
 
   const handleStartMainMission = useCallback((missionId: "games" | "quiz" | "surprises") => {
     if (missionId === "games") {
-      window.location.assign(siteConfig.campMissionPath);
+      navigateTo(siteConfig.campMissionPath);
       return;
     }
 
     if (missionId === "quiz") {
-      window.location.assign(siteConfig.badunkadunkVaultPath);
+      navigateTo(siteConfig.badunkadunkVaultPath);
       return;
     }
 
     if (missionId === "surprises" && hasAllThreeStones) {
-      window.location.assign(siteConfig.finalMissionPath);
+      navigateTo(siteConfig.finalMissionPath);
     }
-  }, [hasAllThreeStones]);
+  }, [hasAllThreeStones, navigateTo]);
 
   const handleBackToPortal = useCallback(() => {
-    window.location.assign(siteConfig.mainPagePath);
-  }, []);
+    navigateTo(siteConfig.mainPagePath);
+  }, [navigateTo]);
 
   const handleBackToPortalFromVault = useCallback(() => {
     markVaultMissionCompleted();
     setIsVaultDone(true);
-    window.location.assign(siteConfig.mainPagePath);
-  }, []);
+    navigateTo(siteConfig.mainPagePath);
+  }, [navigateTo]);
 
   const handleCampMissionCompleted = useCallback(() => {
     markCampMissionCompleted();
@@ -253,7 +262,18 @@ export default function App(): JSX.Element {
   const handleFinalMissionCompleted = useCallback(() => {
     markFinalMissionCompleted();
     setIsFinalDone(true);
-    window.location.assign(siteConfig.valentineCongratsPath);
+    navigateTo(siteConfig.valentineCongratsPath);
+  }, [navigateTo]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setPathname(window.location.pathname);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
   }, []);
 
   useEffect(() => {
@@ -372,7 +392,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Fullfor escape room og bruk billetten for a ga videre i historien.
             </p>
-            <a className="locked-page__action" href={siteConfig.mainPagePath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.mainPagePath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.mainPagePath);
+              }}
+            >
               Til portalen
             </a>
           </section>
@@ -389,7 +416,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Overlever de tre steinene til Francois for a lase opp denne siden.
             </p>
-            <a className="locked-page__action" href={siteConfig.finalMissionPath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.finalMissionPath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.finalMissionPath);
+              }}
+            >
               Til Francois Throne
             </a>
           </section>
@@ -415,7 +449,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Fullfor escape room og bruk billetten i {siteConfig.mainWorldName} for a starte finalen.
             </p>
-            <a className="locked-page__action" href={siteConfig.mainPagePath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.mainPagePath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.mainPagePath);
+              }}
+            >
               Til portalen
             </a>
           </section>
@@ -432,7 +473,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Skaff Gestral Stone, Aether Stone og Chrono Stone for a ga inn i Francois Throne.
             </p>
-            <a className="locked-page__action" href={siteConfig.mainPagePath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.mainPagePath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.mainPagePath);
+              }}
+            >
               Til portal-kartet
             </a>
           </section>
@@ -458,7 +506,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Fullfor escape room og bruk billetten i {siteConfig.mainWorldName} for a starte hvelvet.
             </p>
-            <a className="locked-page__action" href={siteConfig.mainPagePath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.mainPagePath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.mainPagePath);
+              }}
+            >
               Til portalen
             </a>
           </section>
@@ -484,7 +539,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Fullfor escape room og bruk billetten i {siteConfig.mainWorldName} for a starte Camp.
             </p>
-            <a className="locked-page__action" href={siteConfig.mainPagePath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.mainPagePath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.mainPagePath);
+              }}
+            >
               Til portalen
             </a>
           </section>
@@ -521,7 +583,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Porten til {siteConfig.mainWorldName} reagerer bare pa billetten fra black hole.
             </p>
-            <a className="locked-page__action" href={siteConfig.escapeRoomPath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.escapeRoomPath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.escapeRoomPath);
+              }}
+            >
               Gaa til black hole
             </a>
           </section>
@@ -573,7 +642,14 @@ export default function App(): JSX.Element {
             <p className="locked-page__story">
               Fullfor escape room for a finne billetten til {siteConfig.mainWorldName}.
             </p>
-            <a className="locked-page__action" href={siteConfig.escapeRoomPath}>
+            <a
+              className="locked-page__action"
+              href={siteConfig.escapeRoomPath}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(siteConfig.escapeRoomPath);
+              }}
+            >
               Start escape room
             </a>
           </section>

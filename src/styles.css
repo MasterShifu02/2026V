@@ -9,5 +9,5 @@ body,
 
 body {
   overflow-x: hidden;
-  cursor: url("/images/pointer.png"), auto;
+  cursor: var(--app-pointer-cursor, auto);
 }

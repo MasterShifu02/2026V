@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { withBase } from "../../../content/basePath";
 import { valentineAudioConfig } from "../content/valentineAudio";
 
 type ValentineCongratsSceneProps = {
@@ -8,20 +9,20 @@ type ValentineCongratsSceneProps = {
 };
 
 const ADI_IMAGE_CANDIDATES = [
-  "/images/worlds/adi-expedition/Adi.jpeg",
-  "/images/worlds/adi-expedition/adi.jpeg",
-  "/images/worlds/adi-expedition/Adi.jpg",
-  "/images/worlds/adi-expedition/adi.jpg",
-  "/images/worlds/adi-expedition/Adi.png",
-  "/images/worlds/adi-expedition/adi.png",
-  "/images/worlds/adi-expedition/Adi.webp",
-  "/images/worlds/adi-expedition/adi.webp",
-  "/images/worlds/adi-expedition/Me.jpeg",
-  "/images/worlds/adi-expedition/me.jpeg",
-  "/images/worlds/adi-expedition/Me.jpg",
-  "/images/worlds/adi-expedition/me.jpg",
-  "/images/worlds/adi-expedition/Me.png",
-  "/images/worlds/adi-expedition/me.png"
+  withBase("/images/worlds/adi-expedition/Adi.jpeg"),
+  withBase("/images/worlds/adi-expedition/adi.jpeg"),
+  withBase("/images/worlds/adi-expedition/Adi.jpg"),
+  withBase("/images/worlds/adi-expedition/adi.jpg"),
+  withBase("/images/worlds/adi-expedition/Adi.png"),
+  withBase("/images/worlds/adi-expedition/adi.png"),
+  withBase("/images/worlds/adi-expedition/Adi.webp"),
+  withBase("/images/worlds/adi-expedition/adi.webp"),
+  withBase("/images/worlds/adi-expedition/Me.jpeg"),
+  withBase("/images/worlds/adi-expedition/me.jpeg"),
+  withBase("/images/worlds/adi-expedition/Me.jpg"),
+  withBase("/images/worlds/adi-expedition/me.jpg"),
+  withBase("/images/worlds/adi-expedition/Me.png"),
+  withBase("/images/worlds/adi-expedition/me.png")
 ] as const;
 
 export function ValentineCongratsScene({

@@ -1,3 +1,5 @@
+import { withBase } from "../../../content/basePath";
+
 export const valentineAudioConfig = {
-  themePath: "/audio/worlds/adi-expedition/valentine/Theme.mp3"
+  themePath: withBase("/audio/worlds/adi-expedition/valentine/Theme.mp3")
 } as const;

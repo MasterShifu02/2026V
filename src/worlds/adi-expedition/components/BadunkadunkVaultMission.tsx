@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { withBase } from "../../../content/basePath";
 import { missionAudioConfig } from "../content/missionAudio";
 import { vaultAudioConfig } from "../content/vaultAudio";
 import { vaultDialogue } from "../content/vaultDialogue";
@@ -9,12 +10,12 @@ type BadunkadunkVaultMissionProps = {
 };
 
 const NEVRON_IMAGE_CANDIDATES = [
-  "/images/worlds/adi-expedition/Nevron.png",
-  "/images/worlds/adi-expedition/nevron.png",
-  "/images/worlds/adi-expedition/Nevron.webp",
-  "/images/worlds/adi-expedition/nevron.webp",
-  "/images/worlds/adi-expedition/Nevron.jpg",
-  "/images/worlds/adi-expedition/nevron.jpg"
+  withBase("/images/worlds/adi-expedition/Nevron.png"),
+  withBase("/images/worlds/adi-expedition/nevron.png"),
+  withBase("/images/worlds/adi-expedition/Nevron.webp"),
+  withBase("/images/worlds/adi-expedition/nevron.webp"),
+  withBase("/images/worlds/adi-expedition/Nevron.jpg"),
+  withBase("/images/worlds/adi-expedition/nevron.jpg")
 ] as const;
 
 type DialoguePhase =

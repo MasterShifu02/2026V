@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { withBase } from "../../../content/basePath";
 import { missionAudioConfig } from "../content/missionAudio";
 
 type FrancoisFinalMissionProps = {
@@ -7,14 +8,14 @@ type FrancoisFinalMissionProps = {
 };
 
 const FRANCOIS_IMAGE_CANDIDATES = [
-  "/images/worlds/adi-expedition/Francois.jpeg",
-  "/images/worlds/adi-expedition/francois.jpeg",
-  "/images/worlds/adi-expedition/Francois.jpg",
-  "/images/worlds/adi-expedition/francois.jpg",
-  "/images/worlds/adi-expedition/Francois.png",
-  "/images/worlds/adi-expedition/francois.png",
-  "/images/worlds/adi-expedition/Francois.webp",
-  "/images/worlds/adi-expedition/francois.webp"
+  withBase("/images/worlds/adi-expedition/Francois.jpeg"),
+  withBase("/images/worlds/adi-expedition/francois.jpeg"),
+  withBase("/images/worlds/adi-expedition/Francois.jpg"),
+  withBase("/images/worlds/adi-expedition/francois.jpg"),
+  withBase("/images/worlds/adi-expedition/Francois.png"),
+  withBase("/images/worlds/adi-expedition/francois.png"),
+  withBase("/images/worlds/adi-expedition/Francois.webp"),
+  withBase("/images/worlds/adi-expedition/francois.webp")
 ] as const;
 
 export function FrancoisFinalMission({
