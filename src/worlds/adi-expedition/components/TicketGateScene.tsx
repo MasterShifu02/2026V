@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { StarfieldCanvas } from "../../../flows/intro";
 import type { TimedMessage } from "../../../flows/intro";
 import { ticketGateAudioConfig } from "../content/ticketGateAudio";
+import { UniversalAccessTicket } from "./UniversalAccessTicket";
 
 type TicketGateSceneProps = {
   recipientName: string;
@@ -18,6 +19,7 @@ export function TicketGateScene({
 }: TicketGateSceneProps): JSX.Element {
   const [isGateDiscovered, setIsGateDiscovered] = useState(false);
   const [isUnlocking, setIsUnlocking] = useState(false);
+  const [isTicketLaidDown, setIsTicketLaidDown] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const sceneRef = useRef<HTMLElement | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -187,9 +189,28 @@ export function TicketGateScene({
 
       <section className={`ticket-gate-console ${isGateDiscovered ? "is-visible" : ""}`}>
         <p className="ticket-gate-console__eyebrow">Port Detektert</p>
-        <h2>Inngang til {worldName}</h2>
-        <p>{recipientName}, planet-signatur bekreftet. Bruk billetten din for a lase opp porten.</p>
-        <button type="button" onClick={handleUnlockWithTicket} disabled={isUnlocking}>
+        <h2>Planet {worldName}</h2>
+        <p>Bruk billetten din for a låse opp porten.</p>
+        <button
+          type="button"
+          className="ticket-gate-console__ticket-toggle"
+          onClick={() => setIsTicketLaidDown((previous) => !previous)}
+        >
+          {isTicketLaidDown ? "Vis billett" : "Legg ned billett"}
+        </button>
+        <div className={`ticket-gate-console__ticket-wrap ${isTicketLaidDown ? "is-collapsed" : ""}`}>
+          <UniversalAccessTicket
+            className="ticket-gate-console__ticket"
+            destination={worldName}
+            holderName={recipientName}
+          />
+        </div>
+        <button
+          type="button"
+          className="ticket-gate-console__unlock"
+          onClick={handleUnlockWithTicket}
+          disabled={isUnlocking}
+        >
           {isUnlocking ? "Laser opp..." : "Las opp med billett"}
         </button>
       </section>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { withBase } from "../../../content/basePath";
 import { StarfieldCanvas } from "../../../flows/intro";
 import type { TimedMessage } from "../../../flows/intro";
@@ -20,7 +20,17 @@ export function GestralBriefingScene({
 }: GestralBriefingSceneProps): JSX.Element {
   const [imageIndex, setImageIndex] = useState(0);
   const [isAcceptingStone, setIsAcceptingStone] = useState(false);
+  const acceptStoneTimeoutRef = useRef<number | null>(null);
   const imageSource = GESTRAL_IMAGE_CANDIDATES[imageIndex] ?? null;
+
+  useEffect(() => {
+    return () => {
+      if (acceptStoneTimeoutRef.current !== null) {
+        window.clearTimeout(acceptStoneTimeoutRef.current);
+        acceptStoneTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   const handleAcceptStone = () => {
     if (isAcceptingStone) {
@@ -28,9 +38,10 @@ export function GestralBriefingScene({
     }
 
     setIsAcceptingStone(true);
-    window.setTimeout(() => {
+    acceptStoneTimeoutRef.current = window.setTimeout(() => {
       onAcceptFirstStone();
-    }, 1000);
+      acceptStoneTimeoutRef.current = null;
+    }, 1300);
   };
 
   const handleImageError = () => {
@@ -65,10 +76,7 @@ export function GestralBriefingScene({
             </p>
           ))}
           <p className="gestral-dialogue__ani">
-            <strong>{recipientName}:</strong> Jeg skal finne alle steinene og hente Adi tilbake.
-          </p>
-          <p className="gestral-dialogue__next">
-            Neste steg: Camp og Badunkadunk Vault, deretter finalen i {worldName}.
+            <strong>{recipientName}:</strong> hmm... Adi trenger min hjelp i {worldName} planet.
           </p>
         </section>
 
@@ -78,6 +86,12 @@ export function GestralBriefingScene({
           </button>
         </div>
       </section>
+      {isAcceptingStone && (
+        <div className="gestral-return-sequence" aria-hidden>
+          <div className="gestral-return-sequence__stone" />
+          <p className="gestral-return-sequence__text">Gestral Stone synkroniseres med portalen...</p>
+        </div>
+      )}
     </main>
   );
 }

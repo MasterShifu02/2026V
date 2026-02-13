@@ -265,7 +265,41 @@
   color: #cad8ff;
 }
 
-.ticket-gate-console button {
+.ticket-gate-console__ticket {
+  margin-top: 12px;
+}
+
+.ticket-gate-console__ticket-toggle {
+  margin-top: 12px;
+  border: 1px solid rgba(165, 189, 255, 0.52);
+  border-radius: 10px;
+  background: rgba(18, 29, 52, 0.84);
+  color: #d8e7ff;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ticket-gate-console__ticket-toggle:hover {
+  background: rgba(27, 41, 69, 0.9);
+}
+
+.ticket-gate-console__ticket-wrap {
+  margin-top: 10px;
+  max-height: 220px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height 0.28s ease, opacity 0.24s ease, transform 0.24s ease;
+  overflow: hidden;
+}
+
+.ticket-gate-console__ticket-wrap.is-collapsed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.ticket-gate-console__unlock {
   margin-top: 12px;
   border: 0;
   border-radius: 10px;
@@ -276,13 +310,113 @@
   cursor: pointer;
 }
 
-.ticket-gate-console button:hover {
+.ticket-gate-console__unlock:hover {
   background: #1f1faa;
 }
 
-.ticket-gate-console button:disabled {
+.ticket-gate-console__unlock:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+.universal-ticket {
+  --ticket-edge: rgba(194, 218, 255, 0.62);
+  --ticket-bg: rgba(19, 156, 53, 0.86);
+  --ticket-glow: rgba(118, 161, 255, 0.34);
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--ticket-edge);
+  background:
+    linear-gradient(145deg, rgba(26, 40, 74, 0.76), rgba(7, 12, 30, 0.9)),
+    var(--ticket-bg);
+  box-shadow:
+    inset 0 1px 0 rgba(237, 246, 255, 0.18),
+    0 10px 20px rgba(0, 0, 0, 0.32),
+    0 0 22px var(--ticket-glow);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.universal-ticket__shine {
+  position: absolute;
+  inset: -130% auto auto -45%;
+  width: 45%;
+  height: 260%;
+  transform: rotate(24deg);
+  background: linear-gradient(90deg, transparent, rgba(233, 245, 255, 0.22), transparent);
+  pointer-events: none;
+}
+
+.universal-ticket__eyebrow {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a8c4ff;
+}
+
+.universal-ticket__destination {
+  margin: 6px 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #eef4ff;
+  letter-spacing: 0.02em;
+}
+
+.universal-ticket__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.universal-ticket__meta span {
+  display: grid;
+  gap: 2px;
+}
+
+.universal-ticket__meta strong {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a6bbe5;
+}
+
+.universal-ticket__meta em {
+  font-style: normal;
+  font-size: 12px;
+  color: #dbe7ff;
+}
+
+.universal-ticket__footer {
+  margin-top: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.universal-ticket__code {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #cce1ff;
+  letter-spacing: 0.06em;
+}
+
+.universal-ticket__barcode {
+  flex: 0 0 122px;
+  height: 16px;
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f1f5ff 0 2px,
+      transparent 2px 4px,
+      rgba(166, 195, 255, 0.94) 4px 6px,
+      transparent 6px 8px
+    ),
+    linear-gradient(90deg, rgba(8, 15, 34, 0.62), rgba(11, 18, 38, 0.86));
+  border: 1px solid rgba(178, 206, 255, 0.42);
 }
 
 .gestral-briefing-page {
@@ -442,6 +576,39 @@
 
 .gestral-briefing__hint.is-warning {
   color: #f0c79c;
+}
+
+.gestral-return-sequence {
+  position: fixed;
+  inset: 0;
+  z-index: 14;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, rgba(45, 74, 142, 0.34), rgba(0, 0, 0, 0.9) 64%);
+}
+
+.gestral-return-sequence__stone {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #fff2c5 0 14%, #f0c977 38%, #8b5f2b 100%);
+  box-shadow:
+    0 0 18px rgba(242, 206, 135, 0.9),
+    0 0 56px rgba(139, 95, 43, 0.55);
+  animation: camp-stone-warp 1.3s ease-in forwards;
+}
+
+.gestral-return-sequence__text {
+  position: fixed;
+  bottom: 14%;
+  margin: 0;
+  color: #f3dfb6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  text-shadow: 0 0 12px rgba(240, 201, 119, 0.4);
 }
 
 @media (max-width: 900px) {
@@ -2494,6 +2661,14 @@
 
   .ticket-gate-console {
     bottom: 4%;
+  }
+
+  .universal-ticket__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .universal-ticket__barcode {
+    flex-basis: 96px;
   }
 }
 

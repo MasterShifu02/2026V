@@ -16,7 +16,7 @@ type ClickMarker = {
 };
 
 function isLeftThumbHit(normalizedX: number, normalizedY: number): boolean {
-  return normalizedX >= 0.23 && normalizedX <= 0.25 && normalizedY >= 0.67 && normalizedY <= 0.71;
+  return normalizedX >= 0.35 && normalizedX <= 0.38 && normalizedY >= 0.67 && normalizedY <= 0.71;
 }
 
 export function CampMission({
