@@ -3,6 +3,7 @@ import { withBase } from "./basePath";
 export const siteConfig = {
   recipientName: "Ani",
   pageTitle: "For Ani",
+  preludePageTitle: "Will You Be My Valentine?",
   escapePageTitle: "Black Hole Escape",
   ticketGatePageTitle: "Tomt Univers",
   mainPageTitle: "Adi Expedition 33",
@@ -26,6 +27,7 @@ export const siteConfig = {
   campMissionCompletedStorageKey: "ani_camp_mission_completed",
   vaultMissionCompletedStorageKey: "ani_vault_mission_completed",
   finalMissionCompletedStorageKey: "ani_final_mission_completed",
+  preludeCompletedStorageKey: "ani_prelude_completed",
   introWarpDurationMs: 1400,
   enableDevEscapeSkip: true
 } as const;

@@ -4,6 +4,7 @@ import App from "./App";
 import "./styles.css";
 import "./flows/intro/styles.css";
 import "./flows/escape-room/styles.css";
+import "./flows/prelude/styles.css";
 import "./worlds/adi-expedition/styles.css";
 
 const baseUrl = import.meta.env.BASE_URL;

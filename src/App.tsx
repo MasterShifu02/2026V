@@ -3,6 +3,7 @@ import { openingAudioConfig } from "./content/openingAudio";
 import { siteConfig } from "./content/siteConfig";
 import { BlackHoleEscapeRoom } from "./flows/escape-room";
 import { StarfieldCanvas, createMessages } from "./flows/intro";
+import { ValentinePromptScene } from "./flows/prelude";
 import {
   BadunkadunkVaultMission,
   CampMission,
@@ -61,6 +62,14 @@ function markFinalMissionCompleted(): void {
   window.sessionStorage.setItem(siteConfig.finalMissionCompletedStorageKey, "completed");
 }
 
+function hasPreludeCompleted(): boolean {
+  return window.sessionStorage.getItem(siteConfig.preludeCompletedStorageKey) === "completed";
+}
+
+function markPreludeCompleted(): void {
+  window.sessionStorage.setItem(siteConfig.preludeCompletedStorageKey, "completed");
+}
+
 export default function App(): JSX.Element {
   const messages = useMemo(() => createMessages(siteConfig.recipientName), []);
   const [pathname, setPathname] = useState(() => window.location.pathname);
@@ -74,6 +83,7 @@ export default function App(): JSX.Element {
   const [isCampDone, setIsCampDone] = useState<boolean>(() => hasCampMissionCompleted());
   const [isVaultDone, setIsVaultDone] = useState<boolean>(() => hasVaultMissionCompleted());
   const [isFinalDone, setIsFinalDone] = useState<boolean>(() => hasFinalMissionCompleted());
+  const [isPreludeDone, setIsPreludeDone] = useState<boolean>(() => hasPreludeCompleted());
   const introMusicAudioRef = useRef<HTMLAudioElement | null>(null);
   const introMusicFadeFrameRef = useRef<number | null>(null);
   const warpWhooshAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -94,6 +104,8 @@ export default function App(): JSX.Element {
     !isValentineCongratsPage &&
     !isEscapePage &&
     !isTicketGatePage;
+  const isPreludePage = isIntroPage && !isPreludeDone;
+  const isActualIntroPage = isIntroPage && isPreludeDone;
 
   const navigateTo = useCallback((path: string) => {
     if (window.location.pathname === path) {
@@ -265,6 +277,11 @@ export default function App(): JSX.Element {
     navigateTo(siteConfig.valentineCongratsPath);
   }, [navigateTo]);
 
+  const handleStartRealExperience = useCallback(() => {
+    markPreludeCompleted();
+    setIsPreludeDone(true);
+  }, []);
+
   useEffect(() => {
     const handlePopState = () => {
       setPathname(window.location.pathname);
@@ -277,7 +294,7 @@ export default function App(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!isIntroPage) {
+    if (!isActualIntroPage) {
       return;
     }
 
@@ -326,9 +343,14 @@ export default function App(): JSX.Element {
       audio.src = "";
       introMusicAudioRef.current = null;
     };
-  }, [isIntroPage]);
+  }, [isActualIntroPage]);
 
   useEffect(() => {
+    if (isPreludePage) {
+      document.title = siteConfig.preludePageTitle;
+      return;
+    }
+
     if (isMainPage && canAccessMainPage && !hasGestralStone) {
       document.title = siteConfig.gestralBriefingPageTitle;
       return;
@@ -377,10 +399,20 @@ export default function App(): JSX.Element {
     isCampMissionPage,
     isEscapePage,
     isFinalMissionPage,
+    isPreludePage,
     isMainPage,
     isValentineCongratsPage,
     isTicketGatePage
   ]);
+
+  if (isPreludePage) {
+    return (
+      <ValentinePromptScene
+        recipientName={siteConfig.recipientName}
+        onStartRealExperience={handleStartRealExperience}
+      />
+    );
+  }
 
   if (isValentineCongratsPage) {
     if (!canAccessMainPage) {
