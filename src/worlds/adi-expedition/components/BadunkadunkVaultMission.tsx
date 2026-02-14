@@ -310,7 +310,7 @@ export function BadunkadunkVaultMission({
           <div className="vault-mission__reply-box">
             <p>Ani sin tur:</p>
             <button type="button" onClick={handleAniReply}>
-              Ani: "Jeg er her. Fortsett."
+              Ani: "Suck it! Get to the point."
             </button>
           </div>
         )}
