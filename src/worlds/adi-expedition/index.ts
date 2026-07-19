@@ -4,5 +4,6 @@ export { FrancoisFinalMission } from "./components/FrancoisFinalMission";
 export { GestralBriefingScene } from "./components/GestralBriefingScene";
 export { MainHub } from "./components/MainHub";
 export { TicketGateScene } from "./components/TicketGateScene";
+export { UniverseReturnButton } from "./components/UniverseReturnButton";
 export { UniversalAccessTicket } from "./components/UniversalAccessTicket";
 export { ValentineCongratsScene } from "./components/ValentineCongratsScene";

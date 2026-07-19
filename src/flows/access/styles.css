@@ -1,0 +1,127 @@
+.access-code-page {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #02030a;
+  color: #fff;
+}
+
+.access-code-page #starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.access-code-glow {
+  position: fixed;
+  z-index: 1;
+  width: min(72vw, 720px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 91, 149, 0.18), rgba(95, 78, 211, 0.08) 42%, transparent 70%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.access-code-card {
+  position: relative;
+  z-index: 2;
+  width: min(420px, calc(100vw - 36px));
+  box-sizing: border-box;
+  padding: clamp(26px, 5vw, 38px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(20, 18, 36, 0.82), rgba(8, 10, 24, 0.72));
+  box-shadow:
+    0 26px 80px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  text-align: center;
+}
+
+.access-code-eyebrow {
+  margin: 0 0 10px;
+  color: #f2a5c6;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.access-code-card h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 7vw, 2.65rem);
+  line-height: 1.08;
+}
+
+.access-code-intro {
+  margin: 14px auto 0;
+  max-width: 34ch;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.55;
+}
+
+.access-code-form {
+  margin-top: 24px;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+.access-code-form label {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.access-code-form input {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 13px 14px;
+  font: inherit;
+  letter-spacing: 0.08em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.access-code-form input:focus {
+  border-color: rgba(242, 165, 198, 0.78);
+  box-shadow: 0 0 0 3px rgba(242, 165, 198, 0.12);
+}
+
+.access-code-form input[aria-invalid="true"] {
+  border-color: rgba(255, 110, 121, 0.8);
+}
+
+.access-code-form button {
+  margin-top: 4px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #db4f87, #8a63dc);
+  color: #fff;
+  padding: 13px 16px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(180, 73, 144, 0.28);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.access-code-form button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.access-code-error {
+  margin: 14px 0 0;
+  color: #ff9ca5;
+  font-size: 0.88rem;
+}

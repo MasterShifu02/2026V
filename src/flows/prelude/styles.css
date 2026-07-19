@@ -186,6 +186,39 @@
   max-width: 56ch;
 }
 
+.valentine-prompt-skip {
+  margin: 20px auto 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #784356;
+  font-size: 0.86rem;
+}
+
+.valentine-prompt-skip button {
+  border: 1px solid rgba(111, 28, 57, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  color: #4d172a;
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.valentine-prompt-skip button:hover {
+  border-color: rgba(111, 28, 57, 0.48);
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-1px);
+}
+
+.valentine-prompt-skip button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+  transform: none;
+}
+
 .valentine-prompt-confirm {
   margin-top: 16px;
   display: grid;

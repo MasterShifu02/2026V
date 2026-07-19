@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { openingAudioConfig } from "./content/openingAudio";
 import { siteConfig } from "./content/siteConfig";
+import { AccessCodeGate } from "./flows/access";
 import { BlackHoleEscapeRoom } from "./flows/escape-room";
 import { StarfieldCanvas, createMessages } from "./flows/intro";
 import { ValentinePromptScene } from "./flows/prelude";
@@ -11,6 +12,7 @@ import {
   GestralBriefingScene,
   MainHub,
   TicketGateScene,
+  UniverseReturnButton,
   ValentineCongratsScene
 } from "./worlds/adi-expedition";
 
@@ -70,8 +72,17 @@ function markPreludeCompleted(): void {
   window.sessionStorage.setItem(siteConfig.preludeCompletedStorageKey, "completed");
 }
 
+function hasSiteAccess(): boolean {
+  return window.sessionStorage.getItem(siteConfig.siteAccessStorageKey) === "granted";
+}
+
+function grantSiteAccess(): void {
+  window.sessionStorage.setItem(siteConfig.siteAccessStorageKey, "granted");
+}
+
 export default function App(): JSX.Element {
   const messages = useMemo(() => createMessages(siteConfig.recipientName), []);
+  const [isSiteUnlocked, setIsSiteUnlocked] = useState<boolean>(() => hasSiteAccess());
   const [pathname, setPathname] = useState(() => window.location.pathname);
   const [showContinueButton, setShowContinueButton] = useState(false);
   const [isWarpingToEscape, setIsWarpingToEscape] = useState(false);
@@ -163,6 +174,11 @@ export default function App(): JSX.Element {
     setShowContinueButton(true);
   }, []);
 
+  const handleSiteUnlock = useCallback(() => {
+    grantSiteAccess();
+    setIsSiteUnlocked(true);
+  }, []);
+
   const playWarpWhoosh = useCallback(() => {
     if (warpWhooshAudioRef.current) {
       warpWhooshAudioRef.current.pause();
@@ -183,7 +199,7 @@ export default function App(): JSX.Element {
     }
   }, []);
 
-  const handleStartEscape = useCallback(() => {
+  const handleEnterUniverse = useCallback(() => {
     if (isWarpingToEscape) {
       return;
     }
@@ -192,7 +208,7 @@ export default function App(): JSX.Element {
     playWarpWhoosh();
     fadeOutIntroMusic(Math.min(Math.max(siteConfig.introWarpDurationMs - 220, 450), 950));
     window.setTimeout(() => {
-      navigateTo(siteConfig.escapeRoomPath);
+      navigateTo(siteConfig.ticketGatePath);
     }, siteConfig.introWarpDurationMs);
   }, [fadeOutIntroMusic, isWarpingToEscape, navigateTo, playWarpWhoosh]);
 
@@ -225,8 +241,14 @@ export default function App(): JSX.Element {
 
   const handleEscapeCompleted = useCallback(() => {
     markEscapeCompleted();
+    grantEscapeTicket();
     setIsEscapeDone(true);
+    setCanAccessMainPage(true);
     navigateTo(siteConfig.ticketGatePath);
+  }, [navigateTo]);
+
+  const handleRequestAccessKey = useCallback(() => {
+    navigateTo(siteConfig.escapeRoomPath);
   }, [navigateTo]);
 
   const handleUseTicketAtPlanet = useCallback(() => {
@@ -253,6 +275,10 @@ export default function App(): JSX.Element {
 
   const handleBackToPortal = useCallback(() => {
     navigateTo(siteConfig.mainPagePath);
+  }, [navigateTo]);
+
+  const handleReturnToUniverse = useCallback(() => {
+    navigateTo(siteConfig.ticketGatePath);
   }, [navigateTo]);
 
   const handleBackToPortalFromVault = useCallback(() => {
@@ -282,6 +308,15 @@ export default function App(): JSX.Element {
     setIsPreludeDone(true);
   }, []);
 
+  const handleSkipToUniverse = useCallback(() => {
+    markPreludeCompleted();
+    markEscapeCompleted();
+    grantEscapeTicket();
+    setIsEscapeDone(true);
+    setCanAccessMainPage(true);
+    setIsPreludeDone(true);
+  }, []);
+
   useEffect(() => {
     const handlePopState = () => {
       setPathname(window.location.pathname);
@@ -294,7 +329,7 @@ export default function App(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!isActualIntroPage) {
+    if (!isSiteUnlocked || !isActualIntroPage) {
       return;
     }
 
@@ -343,9 +378,14 @@ export default function App(): JSX.Element {
       audio.src = "";
       introMusicAudioRef.current = null;
     };
-  }, [isActualIntroPage]);
+  }, [isActualIntroPage, isSiteUnlocked]);
 
   useEffect(() => {
+    if (!isSiteUnlocked) {
+      document.title = "Privat Valentine-univers";
+      return;
+    }
+
     if (isPreludePage) {
       document.title = siteConfig.preludePageTitle;
       return;
@@ -399,17 +439,23 @@ export default function App(): JSX.Element {
     isCampMissionPage,
     isEscapePage,
     isFinalMissionPage,
+    isSiteUnlocked,
     isPreludePage,
     isMainPage,
     isValentineCongratsPage,
     isTicketGatePage
   ]);
 
+  if (!isSiteUnlocked) {
+    return <AccessCodeGate onUnlock={handleSiteUnlock} />;
+  }
+
   if (isPreludePage) {
     return (
       <ValentinePromptScene
         recipientName={siteConfig.recipientName}
         onStartRealExperience={handleStartRealExperience}
+        onSkipToUniverse={handleSkipToUniverse}
       />
     );
   }
@@ -464,10 +510,13 @@ export default function App(): JSX.Element {
     }
 
     return (
-      <ValentineCongratsScene
-        recipientName={siteConfig.recipientName}
-        onBackToPortal={handleBackToPortal}
-      />
+      <>
+        <ValentineCongratsScene
+          recipientName={siteConfig.recipientName}
+          onBackToPortal={handleBackToPortal}
+        />
+        <UniverseReturnButton onReturn={handleReturnToUniverse} />
+      </>
     );
   }
 
@@ -521,10 +570,13 @@ export default function App(): JSX.Element {
     }
 
     return (
-      <FrancoisFinalMission
-        recipientName={siteConfig.recipientName}
-        onMissionCompleted={handleFinalMissionCompleted}
-      />
+      <>
+        <FrancoisFinalMission
+          recipientName={siteConfig.recipientName}
+          onMissionCompleted={handleFinalMissionCompleted}
+        />
+        <UniverseReturnButton onReturn={handleReturnToUniverse} />
+      </>
     );
   }
 
@@ -554,10 +606,13 @@ export default function App(): JSX.Element {
     }
 
     return (
-      <BadunkadunkVaultMission
-        recipientName={siteConfig.recipientName}
-        onBackToPortal={handleBackToPortalFromVault}
-      />
+      <>
+        <BadunkadunkVaultMission
+          recipientName={siteConfig.recipientName}
+          onBackToPortal={handleBackToPortalFromVault}
+        />
+        <UniverseReturnButton onReturn={handleReturnToUniverse} />
+      </>
     );
   }
 
@@ -587,11 +642,14 @@ export default function App(): JSX.Element {
     }
 
     return (
-      <CampMission
-        recipientName={siteConfig.recipientName}
-        onBackToPortal={handleBackToPortal}
-        onMissionCompleted={handleCampMissionCompleted}
-      />
+      <>
+        <CampMission
+          recipientName={siteConfig.recipientName}
+          onBackToPortal={handleBackToPortal}
+          onMissionCompleted={handleCampMissionCompleted}
+        />
+        <UniverseReturnButton onReturn={handleReturnToUniverse} />
+      </>
     );
   }
 
@@ -602,6 +660,8 @@ export default function App(): JSX.Element {
           <TicketGateScene
             recipientName={siteConfig.recipientName}
             worldName={siteConfig.mainWorldName}
+            hasAccessKey={canAccessMainPage}
+            onRequestAccessKey={handleRequestAccessKey}
             onUseTicket={handleUseTicketAtPlanet}
           />
         );
@@ -632,24 +692,30 @@ export default function App(): JSX.Element {
 
     if (!hasGestralStone) {
       return (
-        <GestralBriefingScene
-          recipientName={siteConfig.recipientName}
-          worldName={siteConfig.mainWorldName}
-          onAcceptFirstStone={handleAcceptFirstStone}
-        />
+        <>
+          <GestralBriefingScene
+            recipientName={siteConfig.recipientName}
+            worldName={siteConfig.mainWorldName}
+            onAcceptFirstStone={handleAcceptFirstStone}
+          />
+          <UniverseReturnButton onReturn={handleReturnToUniverse} />
+        </>
       );
     }
 
     return (
-      <MainHub
-        recipientName={siteConfig.recipientName}
-        worldName={siteConfig.mainWorldName}
-        hasGestralStone={hasGestralStone}
-        campMissionCompleted={isCampDone}
-        vaultMissionCompleted={isVaultDone}
-        finalMissionCompleted={isFinalDone}
-        onStartMission={handleStartMainMission}
-      />
+      <>
+        <MainHub
+          recipientName={siteConfig.recipientName}
+          worldName={siteConfig.mainWorldName}
+          hasGestralStone={hasGestralStone}
+          campMissionCompleted={isCampDone}
+          vaultMissionCompleted={isVaultDone}
+          finalMissionCompleted={isFinalDone}
+          onStartMission={handleStartMainMission}
+        />
+        <UniverseReturnButton onReturn={handleReturnToUniverse} />
+      </>
     );
   }
 
@@ -665,34 +731,12 @@ export default function App(): JSX.Element {
   }
 
   if (isTicketGatePage) {
-    if (!isEscapeDone) {
-      return (
-        <main className="locked-page">
-          <section className="locked-page__card">
-            <p className="locked-page__eyebrow">Ingen Billett Enda</p>
-            <h1>Du er ikke ute av black hole ennå</h1>
-            <p className="locked-page__story">
-              Fullfor escape room for a finne billetten til {siteConfig.mainWorldName}.
-            </p>
-            <a
-              className="locked-page__action"
-              href={siteConfig.escapeRoomPath}
-              onClick={(event) => {
-                event.preventDefault();
-                navigateTo(siteConfig.escapeRoomPath);
-              }}
-            >
-              Start escape room
-            </a>
-          </section>
-        </main>
-      );
-    }
-
     return (
       <TicketGateScene
         recipientName={siteConfig.recipientName}
         worldName={siteConfig.mainWorldName}
+        hasAccessKey={canAccessMainPage}
+        onRequestAccessKey={handleRequestAccessKey}
         onUseTicket={handleUseTicketAtPlanet}
       />
     );
@@ -708,14 +752,13 @@ export default function App(): JSX.Element {
       <button
         className={`continue-button ${showContinueButton ? "is-visible" : ""}`}
         type="button"
-        onClick={handleStartEscape}
+        onClick={handleEnterUniverse}
         disabled={isWarpingToEscape}
       >
-        {siteConfig.continueButtonLabel}
+        Fortsett til universet
       </button>
       <p className={`intro-story ${showContinueButton ? "is-visible" : ""}`}>
-        I det du trykker, revner universet og drar deg inn i et black hole. Los gaetene,
-        finn billetten, og apne veien til {siteConfig.mainWorldName}.
+        I det du trykker, åpnes stjernehimmelen og veien til {siteConfig.mainWorldName}.
       </p>
       <div className={`warp-transition ${isWarpingToEscape ? "is-active" : ""}`} aria-hidden>
         <div className="warp-transition__hole" />

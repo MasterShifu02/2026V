@@ -1,3 +1,34 @@
+.universe-return-button {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 9;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(7, 9, 18, 0.58);
+  color: rgba(255, 255, 255, 0.78);
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  opacity: 0.58;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.universe-return-button:hover,
+.universe-return-button:focus-visible {
+  opacity: 1;
+  background: rgba(12, 16, 30, 0.88);
+  transform: translateY(-1px);
+}
+
 .ticket-gate-page {
   --tg-title-x: 0px;
   --tg-title-y: 0px;

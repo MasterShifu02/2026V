@@ -7,6 +7,8 @@ import { UniversalAccessTicket } from "./UniversalAccessTicket";
 type TicketGateSceneProps = {
   recipientName: string;
   worldName: string;
+  hasAccessKey: boolean;
+  onRequestAccessKey: () => void;
   onUseTicket: () => void;
 };
 
@@ -15,6 +17,8 @@ const EMPTY_MESSAGES: TimedMessage[] = [];
 export function TicketGateScene({
   recipientName,
   worldName,
+  hasAccessKey,
+  onRequestAccessKey,
   onUseTicket
 }: TicketGateSceneProps): JSX.Element {
   const [isGateDiscovered, setIsGateDiscovered] = useState(false);
@@ -190,29 +194,44 @@ export function TicketGateScene({
       <section className={`ticket-gate-console ${isGateDiscovered ? "is-visible" : ""}`}>
         <p className="ticket-gate-console__eyebrow">Port Detektert</p>
         <h2>Planet {worldName}</h2>
-        <p>Bruk billetten din for a låse opp porten.</p>
-        <button
-          type="button"
-          className="ticket-gate-console__ticket-toggle"
-          onClick={() => setIsTicketLaidDown((previous) => !previous)}
-        >
-          {isTicketLaidDown ? "Vis billett" : "Legg ned billett"}
-        </button>
-        <div className={`ticket-gate-console__ticket-wrap ${isTicketLaidDown ? "is-collapsed" : ""}`}>
-          <UniversalAccessTicket
-            className="ticket-gate-console__ticket"
-            destination={worldName}
-            holderName={recipientName}
-          />
-        </div>
-        <button
-          type="button"
-          className="ticket-gate-console__unlock"
-          onClick={handleUnlockWithTicket}
-          disabled={isUnlocking}
-        >
-          {isUnlocking ? "Laser opp..." : "Las opp med billett"}
-        </button>
+        {hasAccessKey ? (
+          <>
+            <p>Universnøkkelen er klar. Bruk den for å låse opp porten.</p>
+            <button
+              type="button"
+              className="ticket-gate-console__ticket-toggle"
+              onClick={() => setIsTicketLaidDown((previous) => !previous)}
+            >
+              {isTicketLaidDown ? "Vis nøkkel" : "Legg ned nøkkel"}
+            </button>
+            <div className={`ticket-gate-console__ticket-wrap ${isTicketLaidDown ? "is-collapsed" : ""}`}>
+              <UniversalAccessTicket
+                className="ticket-gate-console__ticket"
+                destination={worldName}
+                holderName={recipientName}
+              />
+            </div>
+            <button
+              type="button"
+              className="ticket-gate-console__unlock"
+              onClick={handleUnlockWithTicket}
+              disabled={isUnlocking}
+            >
+              {isUnlocking ? "Låser opp..." : "Reis til planeten"}
+            </button>
+          </>
+        ) : (
+          <>
+            <p>Porten krever en universnøkkel fra Black Hole.</p>
+            <button
+              type="button"
+              className="ticket-gate-console__unlock"
+              onClick={onRequestAccessKey}
+            >
+              Start Black Hole-quizen
+            </button>
+          </>
+        )}
       </section>
     </main>
   );

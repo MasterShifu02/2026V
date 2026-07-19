@@ -14,7 +14,7 @@ export const siteConfig = {
   valentineCongratsPageTitle: "Valentinsdag // Fra Adi",
   mainWorldName: "Adi Expedition 33",
   escapeRoomPath: withBase("/black-hole"),
-  ticketGatePath: withBase("/tomt-univers"),
+  ticketGatePath: withBase("/univers"),
   mainPagePath: withBase("/hovedside"),
   campMissionPath: withBase("/hovedside/camp"),
   badunkadunkVaultPath: withBase("/hovedside/badunkadunk-vault"),
@@ -28,6 +28,7 @@ export const siteConfig = {
   vaultMissionCompletedStorageKey: "ani_vault_mission_completed",
   finalMissionCompletedStorageKey: "ani_final_mission_completed",
   preludeCompletedStorageKey: "ani_prelude_completed",
+  siteAccessStorageKey: "ani_site_access",
   introWarpDurationMs: 1400,
   enableDevEscapeSkip: true
 } as const;

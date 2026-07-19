@@ -5,6 +5,7 @@ import { valentinePromptAudioConfig } from "../content/valentinePromptAudio";
 type ValentinePromptSceneProps = {
   recipientName: string;
   onStartRealExperience: () => void;
+  onSkipToUniverse: () => void;
 };
 
 const BEAR_IMAGE_CANDIDATES = [
@@ -29,7 +30,8 @@ function clamp(value: number, min: number, max: number): number {
 
 export function ValentinePromptScene({
   recipientName,
-  onStartRealExperience
+  onStartRealExperience,
+  onSkipToUniverse
 }: ValentinePromptSceneProps): JSX.Element {
   const transitionTimeoutRef = useRef<number | null>(null);
   const [imageIndex, setImageIndex] = useState(0);
@@ -135,6 +137,18 @@ export function ValentinePromptScene({
     }, 1200);
   };
 
+  const handleSkipToUniverse = () => {
+    if (isTransitioning) {
+      return;
+    }
+
+    setIsTransitioning(true);
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      onSkipToUniverse();
+      transitionTimeoutRef.current = null;
+    }, 1200);
+  };
+
   return (
     <main className={`valentine-prompt-page ${isTransitioning ? "is-transitioning" : ""}`}>
       <div className="valentine-prompt-hearts" aria-hidden />
@@ -181,6 +195,16 @@ export function ValentinePromptScene({
             {voiceState === "playing" && (
               <p className="valentine-prompt-note">Spiller stemme...</p>
             )}
+            <div className="valentine-prompt-skip">
+              <span>Vil du hoppe over Valentine-spørsmålet og Black Hole-quizen?</span>
+              <button
+                type="button"
+                onClick={handleSkipToUniverse}
+                disabled={isTransitioning}
+              >
+                Hopp over til universet
+              </button>
+            </div>
           </>
         ) : (
           <>
