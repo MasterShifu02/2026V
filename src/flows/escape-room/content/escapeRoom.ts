@@ -10,7 +10,7 @@ export const escapeRiddles: EscapeRiddle[] = [
     id: "first-date",
     question: "Hvilken dato var ble vi sammen? (format: DD.MM.AAAA)",
     hint: "Tips: skriv med punktum mellom dag, maned og ar.",
-    answers: ["01.02.2023"]
+    answers: ["01.03.2024"]
   },
   {
     id: "where-first-date",
